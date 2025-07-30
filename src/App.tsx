@@ -15,8 +15,9 @@ function App() {
   const [response, setResponse] = useState<string>("");
 
   return (
-    <main className="w-screen min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex flex-col items-center justify-start p-0 m-0 overflow-hidden">
+    <main className="max-w-screen min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex flex-col items-center justify-start p-0 m-0 overflow-hidden">
       <Navbar />
+
       <div className="content mt-20 px-10 flex flex-col items-center justify-center w-full overflow-x-hidden gap-5 overflow-hidden">
         <div className="heading flex flex-col items-center justify-center w-full p-10 overflow-x-hidden">
           <h1 className="text-3xl font-bold text-white/80">

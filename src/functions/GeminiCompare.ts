@@ -35,6 +35,7 @@ export const GeminiCompare = async ({
       });
 
       const jobText = scrapeResponse.data.content;
+      console.log(jobText);
 
       const prompt = PromptBuilder({ pdfText, jobText });
 
@@ -42,6 +43,7 @@ export const GeminiCompare = async ({
         model: "gemini-2.5-flash",
         contents: prompt,
       });
+      console.log(result.text);
       const responseText = result.text;
       setResponseGenerated(true);
       setLoading(false);
@@ -59,6 +61,7 @@ export const GeminiCompare = async ({
       contents: prompt,
     });
     const responseText = result.text;
+    console.log(responseText);
     setResponseGenerated(true);
     setLoading(false);
     return responseText;
