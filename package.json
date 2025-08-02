@@ -3,15 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://abijith1997.github.io/Algorank/",
+  "homepage": "/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "serve -s dist",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "start": "serve -s dist"
   },
   "dependencies": {
     "@google/genai": "^1.11.0",
