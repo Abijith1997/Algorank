@@ -1,5 +1,3 @@
-import { gemini } from "../utils/gemini";
-import { PromptBuilder } from "./PromptBuilder";
 import type { GeminiCompareProps, promptResponseProps } from "../types/types";
 
 export const GeminiCompare = async ({
@@ -9,36 +7,55 @@ export const GeminiCompare = async ({
   setResponseGenerated,
   setResponse,
 }: GeminiCompareProps) => {
-  setLoading(true);
+  try {
+    setLoading(true);
 
-  if (description) {
-    const prompt = PromptBuilder({ pdfText, jobText: description });
+    if (!description) {
+      throw new Error("Job description is missing");
+    }
 
-    const result = await gemini.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: prompt,
+    const response = await fetch("http://localhost:4000/compare", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ pdfText, jobText: description }),
     });
-    let responseText = result.text;
 
-    console.log("Raw Gemini response:", responseText);
+    if (!response.ok) {
+      throw new Error("Failed to fetch comparison data from backend");
+    }
+
+    const data = await response.json();
+    let responseText = data.result;
+
+    console.log("Raw Backend Gemini response:", responseText);
+
     if (responseText) {
       responseText = responseText.replace(/```json|```/g, "").trim();
     }
 
-    console.log("After processing", responseText);
+    let parsed: promptResponseProps;
 
-    // Safely parse the JSON string
-    const parsed = responseText && JSON.parse(responseText);
+    try {
+      parsed = JSON.parse(responseText);
+    } catch (jsonError) {
+      console.error("Failed to parse JSON:", jsonError);
+      throw new Error("Invalid JSON format returned from Gemini");
+    }
 
-    // Map to your interface shape
-    const response: promptResponseProps = {
-      score: parsed.Score,
-      reason: parsed.Reason,
-    };
-    setResponse(response);
-    console.log(response);
+    // Optionally validate fields before assignment
+    if (!parsed?.score || !parsed?.reason) {
+      throw new Error("Incomplete data received from backend");
+    }
+
+    setResponse(parsed);
     setResponseGenerated(true);
-    setLoading(false);
     return responseText;
+  } catch (error) {
+    console.error("GeminiCompare Error:", error);
+    setResponseGenerated(false);
+  } finally {
+    setLoading(false);
   }
 };
