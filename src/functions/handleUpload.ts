@@ -5,6 +5,7 @@ export const handleUpload = async ({
   e,
   setPdfText,
   setFileName,
+  setPdfInsights,
 }: handleUploadProps) => {
   const file = e.target.files?.[0];
   if (!file) return;
@@ -22,7 +23,7 @@ export const handleUpload = async ({
 
   try {
     setFileName(file.name);
-    const text = await extractTextFromPDF(file); // wait for Promise to resolve
+    const text = await extractTextFromPDF({ file, setPdfInsights }); // wait for Promise to resolve
     setPdfText(text); // save to state for use in other functions
   } catch (error) {
     console.error("Error extracting PDF text:", error);

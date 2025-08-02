@@ -8,7 +8,7 @@ export const OrComponent = () => {
         <div className="w-[45%] border-t border-gray-500" />
       </div>
       <div className="relative flex justify-center text-sm">
-        <span className="px-2  text-lg text-[#b9adc8] font-bold">or</span>
+        <span className="px-2  text-lg text-black/70 font-bold">or</span>
       </div>
     </div>
   );

@@ -1,2 +1,7 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: hsl(0, 0%, 95%);
+  --color-primary-contrast: hsl(0, 0%, 100%);
+}
+

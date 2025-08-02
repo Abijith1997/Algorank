@@ -1,29 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GeminiCompare } from "../../functions/GeminiCompare";
 import type { SendButtonProps } from "../../types/types";
 
 export const SendButton = ({
-  url,
   pdfText,
   description,
   setResponseGenerated,
-  responseGenerated,
+  setResponse,
 }: SendButtonProps) => {
   const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    console.log("description", description, description.length);
+  }, [description]);
 
   return (
     <button
-      className="cursor-pointer group relative overflow-hidden bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold px-12 py-4 rounded-2xl shadow-lg hover:shadow-purple-500/25 transition-all duration-300 ease-out hover:scale-105 active:scale-95"
+      className={`group relative text-white/90 font-semibold px-12 py-4 hover:shadow-lg transition-all bg-black/90 duration-300 ease-out ${
+        !description || description.length === 0
+          ? "opacity-50 cursor-not-allowed"
+          : "hover:shadow-xl cursor-pointer hover:bg-black"
+      } ${loading ? "animate-pulse" : ""}}`}
       onClick={() =>
         GeminiCompare({
-          url,
           pdfText,
           description,
           setLoading,
           setResponseGenerated,
+          setResponse,
         })
       }
-      disabled={loading}
+      disabled={!description || description.length === 0 || loading}
     >
       Send Request
     </button>

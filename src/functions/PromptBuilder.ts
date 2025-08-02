@@ -10,8 +10,9 @@ Resume:
 ${pdfText}
 Job Description:
 ${jobText}
-Respond in this format:
+Respond as a json object:
+{
 Score: <number>
-Reason: <short reason>
+Reason: <short reason>}
     `;
 };
